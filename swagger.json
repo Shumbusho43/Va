@@ -1,0 +1,151 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Documentation of all Va APIs",
+    "version": "1.0.0",
+    "title": "VA",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "Byose",
+      "email": "davidshumbusho10@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "tags": [
+    {
+      "name": "USER",
+      "description": "All about usera"
+    }
+  ],
+  "paths": {
+    "/api/users": {
+      "get": {
+        "tags": ["USER"],
+        "summary": "All users",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "All"
+          }
+        }
+      },
+      "post": {
+        "tags": ["USER"],
+        "summary": "Registration",
+        "description": "Registration",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "properties": {
+              "fullName": {
+                "type": "string",
+                "example": "Icyamamare David"
+              },
+              "darassa": {
+                "type": "string",
+                "example": "Y2A"
+              },
+              "social": {
+                "type": "string",
+                "example": "baganineza_david"
+              },
+              "gender": {
+                "type": "string",
+                "example": "M"
+              },
+              "movie":{
+                "type":"string",
+                "example":"romance"
+              },
+              "interest": {
+                "type":"object",
+                "properties":{
+                "music":{
+                  "type":"string",
+                  "example":"hiphop"
+                },
+                "sports":{
+                  "type":"string",
+                  "example":"football"
+                },
+                "values":{
+                  "type":"string",
+                  "example":"confidence"
+                }, 
+                "creativity":{
+                  "type":"string",
+                  "example":"art"
+                },
+                "searching":{
+                  "type":"string",
+                  "example":"relationship"
+                },
+               "char":{
+                 "type":"object",
+                 "properties":{
+                 "skincolor":{
+                  "type":"string",
+                  "example":"brown"
+                 },
+                 "height":{
+                  "type":"string",
+                  "example":"tall"
+                 }
+               }
+              }
+              }
+            },
+              "otherInt":{
+                "type":"object",
+                "properties":{
+                "social":{
+                    "type":"string",
+                    "example":"tsapp"
+                },
+                "news":{
+                  "type":"string",
+                  "example":"showbizz"
+                }
+              }
+            }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Recorded."
+          }
+        }
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "tags": ["USER"],
+        "summary": "get user by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "User found"
+          }
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
