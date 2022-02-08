@@ -20,7 +20,10 @@ app.use(
   swaggerUi.setup(swaggerDocs, false, {
     docExpansion: "none",
   })
-);
+  );
+  app.get("/",(req,res)=>{
+    return res.status(200).send("WELCOME TO VA.")
+  })
 //routing
 app.use("/api/users", userRoutes);
 app.listen(port, (err) => {

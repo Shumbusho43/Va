@@ -1,12 +1,13 @@
 const jwt = require("jsonwebtoken");
 const { USER, validate_user } = require("../models/user.schema");
+const { allNames } = require("../models/userModel");
 
 //getting all users
 exports.getAllUsers = async (req, res) => {
   // return res.send("table not initializedd");
   try {
     const user = await USER.find();
-    if (!user) {
+    if (user.length==0) {
       return res.status(400).json({
         success: false,
         message: "No user found",
@@ -26,8 +27,12 @@ exports.getAllUsers = async (req, res) => {
 exports.getUser = async (req, res) => {
   const id = req.params.id;
   try {
+    if(!id) return res.status(400).json({
+      success:false,
+      message:"Id is required"
+    })
     const user = await USER.findById(id);
-    if (!user) {
+    if (user.length==0) {
       return res.status(400).json({
         success: false,
         message: "No user found",
@@ -52,7 +57,20 @@ exports.register = async (req, res) => {
         success: false,
         message: error.message,
       });
-
+    const alreadyIn=await USER.findOne({fullName});
+    if (alreadyIn) {
+      return res.status(400).json({
+        success:false,
+        message:"You are already in. Wait for your reponse soon."
+      })
+    }
+    const nameExist=await allNames.findOne({
+      names:req.body.fullName
+    })
+    if(!nameExist) return res.status(400).json({
+      success:false,
+      message:"Invalid name"
+    })
     const registration = new USER({
       fullName,
       darassa,
@@ -80,3 +98,4 @@ exports.register = async (req, res) => {
     return res.status(500).send("Internal server error");
   }
 };
+//

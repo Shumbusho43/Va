@@ -89,6 +89,14 @@ const userSchema = new mongoose.Schema({
       enum: ["showbizz", "sports", "business", "science&tech"],
     },
   },
+  isTaken:{
+    type:Boolean,
+    default:false
+  },
+   hasRegistered:{
+     type:Boolean,
+     default:true
+   }
 });
 
 exports.validate_user = (user) => {
