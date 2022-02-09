@@ -22,7 +22,7 @@
     { "name": "INTERESTS", "description": "All interests" }
   ],
   "paths": {
-    "/api/users/interest":{
+    "/api/users/interest": {
       "post": {
         "tags": ["INTERESTS"],
         "summary": "Registration of int",
@@ -34,31 +34,21 @@
             "in": "body",
             "name": "body",
             "properties": {
-              "interest": {
-                "type": "object",
-                "properties": {
-                  "sports": {
-                    "type": "string",
-                    "example": "football"
-                  },
-                  "values": {
-                    "type": "string",
-                    "example": "confidence"
-                  },
-                  "char": {
-                    "type": "object",
-                    "properties": {
-                      "skincolor": {
-                        "type": "string",
-                        "example": "brown"
-                      },
-                      "height": {
-                        "type": "string",
-                        "example": "tall"
-                      }
-                    }
-                  }
-                }
+                "sports": {
+                  "type": "string",
+                  "example": "football"
+                },
+                "values": {
+                  "type": "string",
+                  "example": "confidence"
+                },
+                "skincolor": {
+                  "type": "string",
+                  "example": "brown"
+                },
+                "height": {
+                  "type": "string",
+                  "example": "tall"
               }
             }
           }

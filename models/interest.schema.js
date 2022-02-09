@@ -6,7 +6,6 @@ const interestSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "users",
   },
-  interest: {
     sports: {
       type: String,
       required: ["Sport is required", true],
@@ -17,7 +16,6 @@ const interestSchema = new mongoose.Schema({
       required: ["Value is required", true],
       enum: ["confidence", "active", "creativity", "empathy"],
     },
-    char: {
       skincolor: {
         type: true,
         type: String,
@@ -29,24 +27,18 @@ const interestSchema = new mongoose.Schema({
         type: String,
         enum: ["tall", "medium"],
       },
-    },
-  },
 });
 
 exports.validate_interest = (interest) => {
   const validation_schema = Joi.object({
-    interest: {
       sports: Joi.string()
         .valid("football", "pingpong", "volleyball", "basketball")
         .required(),
       values: Joi.string()
         .valid("confidence", "active", "creativity", "empathy")
         .required(),
-      char: {
-        skincolor: Joi.string().valid("black", "brown").required(),
-        height: Joi.string().valid("tall", "medium").required(),
-      },
-    },
+      skincolor: Joi.string().valid("black", "brown").required(),
+      height: Joi.string().valid("tall", "medium").required(),
   });
   return validation_schema.validate(interest);
 };

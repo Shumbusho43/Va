@@ -105,7 +105,7 @@ exports.register = async (req, res) => {
 //register interest
 exports.registerInterests = async (req, res) => {
   try {
-    const {interest} =req.body;
+    const {sports,values,skincolor,height} =req.body;
     const searchingId=req.user.id;
     const { error } = validate_interest(req.body);
     if (error)
@@ -121,7 +121,10 @@ exports.registerInterests = async (req, res) => {
       })
     }
     const registration = new INTEREST({
-    interest,
+    sports,
+    values,
+    skincolor,
+    height,
     searchingId
     });
     await registration.save();
