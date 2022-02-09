@@ -31,3 +31,25 @@ app.listen(port, (err) => {
   console.log("Server............." + port);
 });
 dbConnection();
+
+
+//inserting data from excel to db
+
+// const xlsxFile = require('read-excel-file/node');
+// const { allNames } = require("./models/userModel");
+// const insert =async() => {
+//     xlsxFile('./y3.xlsx').then(async(rows) => {
+//           // console.log(rows[0][0]);
+//         // console.table(rows[3]);
+//         for (let index = 0; index <=58; index++){
+//             for (let i = 0; i < 1 ;i++){
+//             //  console.log(rows[index][i]);
+//             const name=new allNames({names:rows[index][i].toUpperCase()})
+//             await name.save();
+//             i=0;
+//             }
+//         }
+//         console.log("data inserted...")
+//         })
+// };
+// insert();

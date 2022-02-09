@@ -17,10 +17,59 @@
   "tags": [
     {
       "name": "USER",
-      "description": "All about usera"
-    }
+      "description": "All users"
+    },
+    { "name": "INTERESTS", "description": "All interests" }
   ],
   "paths": {
+    "/api/users/interest":{
+      "post": {
+        "tags": ["INTERESTS"],
+        "summary": "Registration of int",
+        "description": "Registration",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "properties": {
+              "interest": {
+                "type": "object",
+                "properties": {
+                  "sports": {
+                    "type": "string",
+                    "example": "football"
+                  },
+                  "values": {
+                    "type": "string",
+                    "example": "confidence"
+                  },
+                  "char": {
+                    "type": "object",
+                    "properties": {
+                      "skincolor": {
+                        "type": "string",
+                        "example": "brown"
+                      },
+                      "height": {
+                        "type": "string",
+                        "example": "tall"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Recorded."
+          }
+        }
+      }
+    },
     "/api/users": {
       "get": {
         "tags": ["USER"],
@@ -59,61 +108,61 @@
                 "type": "string",
                 "example": "M"
               },
-              "movie":{
-                "type":"string",
-                "example":"romance"
+              "movie": {
+                "type": "string",
+                "example": "romance"
               },
               "interest": {
-                "type":"object",
-                "properties":{
-                "music":{
-                  "type":"string",
-                  "example":"hiphop"
-                },
-                "sports":{
-                  "type":"string",
-                  "example":"football"
-                },
-                "values":{
-                  "type":"string",
-                  "example":"confidence"
-                }, 
-                "creativity":{
-                  "type":"string",
-                  "example":"art"
-                },
-                "searching":{
-                  "type":"string",
-                  "example":"relationship"
-                },
-               "char":{
-                 "type":"object",
-                 "properties":{
-                 "skincolor":{
-                  "type":"string",
-                  "example":"brown"
-                 },
-                 "height":{
-                  "type":"string",
-                  "example":"tall"
-                 }
-               }
-              }
-              }
-            },
-              "otherInt":{
-                "type":"object",
-                "properties":{
-                "social":{
-                    "type":"string",
-                    "example":"tsapp"
-                },
-                "news":{
-                  "type":"string",
-                  "example":"showbizz"
+                "type": "object",
+                "properties": {
+                  "music": {
+                    "type": "string",
+                    "example": "hiphop"
+                  },
+                  "sports": {
+                    "type": "string",
+                    "example": "football"
+                  },
+                  "values": {
+                    "type": "string",
+                    "example": "confidence"
+                  },
+                  "creativity": {
+                    "type": "string",
+                    "example": "art"
+                  },
+                  "searching": {
+                    "type": "string",
+                    "example": "relationship"
+                  },
+                  "char": {
+                    "type": "object",
+                    "properties": {
+                      "skincolor": {
+                        "type": "string",
+                        "example": "brown"
+                      },
+                      "height": {
+                        "type": "string",
+                        "example": "tall"
+                      }
+                    }
+                  }
+                }
+              },
+              "otherInt": {
+                "type": "object",
+                "properties": {
+                  "social": {
+                    "type": "string",
+                    "example": "tsapp"
+                  },
+                  "news": {
+                    "type": "string",
+                    "example": "showbizz"
+                  }
                 }
               }
-            }
             }
           }
         ],

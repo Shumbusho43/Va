@@ -1,0 +1,53 @@
+const { type } = require("express/lib/response");
+const Joi = require("joi");
+const mongoose = require("mongoose");
+const interestSchema = new mongoose.Schema({
+  searchingId: {
+    type: mongoose.Schema.ObjectId,
+    ref: "users",
+  },
+  interest: {
+    sports: {
+      type: String,
+      required: ["Sport is required", true],
+      enum: ["football", "pingpong", "volleyball", "basketball"],
+    },
+    values: {
+      type: String,
+      required: ["Value is required", true],
+      enum: ["confidence", "active", "creativity", "empathy"],
+    },
+    char: {
+      skincolor: {
+        type: true,
+        type: String,
+        required: ["Characteristics are required.", true],
+        enum: ["black", "brown"],
+      },
+      height: {
+        required: true,
+        type: String,
+        enum: ["tall", "medium"],
+      },
+    },
+  },
+});
+
+exports.validate_interest = (interest) => {
+  const validation_schema = Joi.object({
+    interest: {
+      sports: Joi.string()
+        .valid("football", "pingpong", "volleyball", "basketball")
+        .required(),
+      values: Joi.string()
+        .valid("confidence", "active", "creativity", "empathy")
+        .required(),
+      char: {
+        skincolor: Joi.string().valid("black", "brown").required(),
+        height: Joi.string().valid("tall", "medium").required(),
+      },
+    },
+  });
+  return validation_schema.validate(interest);
+};
+module.exports.INTEREST = mongoose.model("interests", interestSchema);

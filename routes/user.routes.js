@@ -3,8 +3,12 @@ const {
   getAllUsers,
   getUser,
   register,
+  registerInterests,
 } = require("../controllers/user.controller");
+const { protect } = require("../middleware/auth");
 const router = express.Router();
 router.route("/").get(getAllUsers).post(register);
+router.route("/interest")
+.post(protect,registerInterests);
 router.route("/:id").get(getUser);
 module.exports.userRoutes = router;

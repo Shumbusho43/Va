@@ -93,10 +93,6 @@ const userSchema = new mongoose.Schema({
     type:Boolean,
     default:false
   },
-   hasRegistered:{
-     type:Boolean,
-     default:true
-   }
 });
 
 exports.validate_user = (user) => {

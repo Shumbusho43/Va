@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-const { USER, validate_user } = require("../models/user.schema");
+const { INTEREST, validate_interest } = require("../models/interest.schema");
+const { USER, validate_user} = require("../models/user.schema");
 const { allNames } = require("../models/userModel");
 
 //getting all users
@@ -57,7 +58,8 @@ exports.register = async (req, res) => {
         success: false,
         message: error.message,
       });
-    const alreadyIn=await USER.findOne({fullName});
+      let changeCase=fullName.toUpperCase()
+    const alreadyIn=await USER.findOne({fullName:changeCase});
     if (alreadyIn) {
       return res.status(400).json({
         success:false,
@@ -65,14 +67,14 @@ exports.register = async (req, res) => {
       })
     }
     const nameExist=await allNames.findOne({
-      names:req.body.fullName
+      names:changeCase
     })
     if(!nameExist) return res.status(400).json({
       success:false,
-      message:"Invalid name"
+      message:fullName+" does not exist in RCA. Please check your name on shared file"
     })
     const registration = new USER({
-      fullName,
+      fullName:fullName.toUpperCase(),
       darassa,
       social,
       movie,
@@ -86,9 +88,11 @@ exports.register = async (req, res) => {
       {
         id: registration._id,
       },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,{
+        expiresIn:"1d"
+      }
     );
-    return res.status(201).json({
+    return res.cookie("token",`${token}`).json({
       success: true,
       message: "record added",
       token,
@@ -98,4 +102,46 @@ exports.register = async (req, res) => {
     return res.status(500).send("Internal server error");
   }
 };
-//
+//register interest
+exports.registerInterests = async (req, res) => {
+  try {
+    const {interest} =req.body;
+    const searchingId=req.user.id;
+    const { error } = validate_interest(req.body);
+    if (error)
+      return res.status(400).json({
+        success: false,
+        message: error.message,
+      });
+    const alreadyIn=await INTEREST.findOne({searchingId});
+    if (alreadyIn) {
+      return res.status(400).json({
+        success:false,
+        message:"You have already submitted your interests,wait for your reponse soon."
+      })
+    }
+    const registration = new INTEREST({
+    interest,
+    searchingId
+    });
+    await registration.save();
+    return res.status(201).json({
+      success: true,
+      message: "Record added"
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("Internal server error");
+  }
+};
+//result algo
+exports.getMatch=async(req,res)=>{
+  //conditions
+  //if taken do not include
+  //no m with m || f with f
+  try {
+    
+  } catch (error) {
+    
+  }
+  }

@@ -17,17 +17,17 @@ exports.protect = async (req, res, next) => {
     });
   }
   try {
-    jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+    jwt.verify(token, process.env.JWT_SECRET,async(err, decoded) =>{
       if (err) {
         console.log(err);
       } else {
-        const user = await USER.findById(decoded._id);
+        const user = await USER.findById(decoded.id);
         if (!user)
           return res.status(404).json({
             success: false,
             message: "This user does not exist",
           });
-        req.user = result.rows;
+        req.user = user
         next();
       }
     });
