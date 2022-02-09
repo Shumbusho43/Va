@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { INTEREST, validate_interest } = require("../models/interest.schema");
-const { USER, validate_user} = require("../models/user.schema");
+const { USER, validate_user } = require("../models/user.schema");
 const { allNames } = require("../models/userModel");
 
 //getting all users
@@ -8,7 +8,7 @@ exports.getAllUsers = async (req, res) => {
   // return res.send("table not initializedd");
   try {
     const user = await USER.find();
-    if (user.length==0) {
+    if (user.length == 0) {
       return res.status(400).json({
         success: false,
         message: "No user found",
@@ -28,12 +28,13 @@ exports.getAllUsers = async (req, res) => {
 exports.getUser = async (req, res) => {
   const id = req.params.id;
   try {
-    if(!id) return res.status(400).json({
-      success:false,
-      message:"Id is required"
-    })
+    if (!id)
+      return res.status(400).json({
+        success: false,
+        message: "Id is required",
+      });
     const user = await USER.findById(id);
-    if (user.length==0) {
+    if (user.length == 0) {
       return res.status(400).json({
         success: false,
         message: "No user found",
@@ -58,23 +59,26 @@ exports.register = async (req, res) => {
         success: false,
         message: error.message,
       });
-      let changeCase=fullName.toUpperCase()
-    const alreadyIn=await USER.findOne({fullName:changeCase});
+    let changeCase = fullName.toUpperCase();
+    const alreadyIn = await USER.findOne({ fullName: changeCase });
     if (alreadyIn) {
       return res.status(400).json({
-        success:false,
-        message:"You are already in. Wait for your reponse soon."
-      })
+        success: false,
+        message: "You are already in. Wait for your reponse soon.",
+      });
     }
-    const nameExist=await allNames.findOne({
-      names:changeCase
-    })
-    if(!nameExist) return res.status(400).json({
-      success:false,
-      message:fullName+" does not exist in RCA. Please check your name on shared file"
-    })
+    const nameExist = await allNames.findOne({
+      names: changeCase,
+    });
+    if (!nameExist)
+      return res.status(400).json({
+        success: false,
+        message:
+          fullName +
+          " does not exist in RCA. Please check your name on shared file",
+      });
     const registration = new USER({
-      fullName:fullName.toUpperCase(),
+      fullName: fullName.toUpperCase(),
       darassa,
       social,
       movie,
@@ -88,11 +92,12 @@ exports.register = async (req, res) => {
       {
         id: registration._id,
       },
-      process.env.JWT_SECRET,{
-        expiresIn:"1d"
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
       }
     );
-    return res.cookie("token",`${token}`).json({
+    return res.cookie("token", `${token}`).json({
       success: true,
       message: "record added",
       token,
@@ -105,32 +110,33 @@ exports.register = async (req, res) => {
 //register interest
 exports.registerInterests = async (req, res) => {
   try {
-    const {sports,values,skincolor,height} =req.body;
-    const searchingId=req.user.id;
+    const { sports, values, skincolor, height } = req.body;
+    const searchingId = req.user.id;
     const { error } = validate_interest(req.body);
     if (error)
       return res.status(400).json({
         success: false,
         message: error.message,
       });
-    const alreadyIn=await INTEREST.findOne({searchingId});
+    const alreadyIn = await INTEREST.findOne({ searchingId });
     if (alreadyIn) {
       return res.status(400).json({
-        success:false,
-        message:"You have already submitted your interests,wait for your reponse soon."
-      })
+        success: false,
+        message:
+          "You have already submitted your interests,wait for your reponse soon.",
+      });
     }
     const registration = new INTEREST({
-    sports,
-    values,
-    skincolor,
-    height,
-    searchingId
+      sports,
+      values,
+      skincolor,
+      height,
+      searchingId,
     });
     await registration.save();
     return res.status(201).json({
       success: true,
-      message: "Record added"
+      message: "Record added",
     });
   } catch (error) {
     console.log(error);
@@ -138,13 +144,125 @@ exports.registerInterests = async (req, res) => {
   }
 };
 //result algo
-exports.getMatch=async(req,res)=>{
+exports.assignMatch = async (req, res) => {
   //conditions
   //if taken do not include
   //no m with m || f with f
   try {
-    
+    //all
+    let count = 0;
+    let count2 = 0;
+    const allgirls = await USER.find({ gender: "F" });
+    const allboys = await USER.find({ gender: "M"});
+    if (allgirls.length == 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No girls found.",
+      });
+    }
+    if (allboys.length == 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No boys found.",
+      });
+    }
+    for (i = 0; i < allgirls.length; i++) {
+      for (j = 0; j < allboys.length; j++) {
+      //if taken
+          if (allboys[i].isTaken==true) {
+            continue
+          }
+        if (allgirls[i].interest.music == allboys[j].interest.music) {
+          count++;
+        }
+        if (allgirls[i].interest.sports == allboys[j].interest.sports) {
+          count++;
+        }
+        if (allgirls[i].interest.values == allboys[j].interest.values) {
+          count++;
+        }
+        if (allgirls[i].interest.searching == allboys[j].interest.searching) {
+          count++;
+        }
+        if (allgirls[i].interest.creativity == allboys[j].interest.creativity) {
+          count++;
+        }
+        if (
+          allgirls[i].interest.char.skincolor ==
+          allboys[j].interest.char.skincolor
+        ) {
+          count++;
+        }
+        if (
+          allgirls[i].interest.char.skincolor ==
+          allboys[j].interest.char.skincolor
+        ) {
+          count++;
+        }
+        if (
+          allgirls[i].interest.char.height == allboys[j].interest.char.height
+        ) {
+          count++;
+        }
+        if (allgirls[i].movie == allboys[j].movie) {
+          count++;
+        }
+        if (allgirls[i].otherInt.news == allboys[j].otherInt.news) {
+          count++;
+        }
+        //if count >=7
+        // console.log(count);
+        if (count >= 6) {
+          // console.log(count);
+          //selecting their interests
+          let boysInt = await INTEREST.find({ searchingId: allboys[j]._id });
+          let girlInt = await INTEREST.find({ searchingId: allgirls[i]._id });
+          if(boysInt.length==0) return res.status(400).json({
+            success:false,
+            message:"Sorry! this boy didn't register his interests"
+          })
+          if(girlInt.length==0) return res.status(400).json({
+            success:false,
+            message:"Sorry! this girl didn't register his interests"
+          })
+          else{
+          if (girlInt.height == boysInt.height) {
+            count2++;
+          }
+          if (girlInt.sports == boysInt.sports) {
+            count2++;
+          }
+          if (girlInt.values == boysInt.values) {
+            count2++;
+          }
+          if (girlInt.skincolor== boysInt.skincolor) {
+            count2++;
+          }
+        //your match
+          if(count2>=3){
+            //updating db
+          let upGirlInt=await INTEREST.findOneAndUpdate({searchingId:girlInt[0].searchingId},{matchingId:boysInt[0].searchingId});
+          let upBoyInt=await INTEREST.findOneAndUpdate({searchingId:boysInt[0].searchingId},{matchingId:girlInt[0].searchingId});
+          await upGirlInt.save();
+          await upBoyInt.save();
+
+          let boy=await USER.findByIdAndUpdate(allboys[j]._id,{isTaken:true})
+          let girl=await USER.findByIdAndUpdate(allgirls[i]._id,{isTaken:true})
+          await boy.save();
+          await girl.save();
+          //removing from array
+          }
+        }
+        }
+      }
+    j = 0;
+    }
+    //after assigning matching
+    return res.status(200).json({
+      success:true,
+      message:"Finished assigning matching."
+    })
   } catch (error) {
-    
+    console.log(error);
   }
-  }
+};

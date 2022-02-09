@@ -19,9 +19,22 @@
       "name": "USER",
       "description": "All users"
     },
-    { "name": "INTERESTS", "description": "All interests" }
+    { "name": "INTERESTS", "description": "All interests" },
+    { "name": "MATCH", "description": "Matching" }
   ],
   "paths": {
+    "/api/users/assignMatch": {
+      "put": {
+        "tags": ["MATCH"],
+        "summary": "Your match",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Done............."
+          }
+        }
+      }
+      },
     "/api/users/interest": {
       "post": {
         "tags": ["INTERESTS"],

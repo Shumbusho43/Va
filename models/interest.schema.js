@@ -6,6 +6,12 @@ const interestSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "users",
   },
+  matchingId: {
+    type: mongoose.Schema.ObjectId,
+    ref: "users",
+    required:true,
+    default:"62041601ec527771c3d32848"
+  },
     sports: {
       type: String,
       required: ["Sport is required", true],
