@@ -20,7 +20,7 @@ const interestSchema = new mongoose.Schema({
     values: {
       type: String,
       required: ["Value is required", true],
-      enum: ["confidence", "active", "creativity", "empathy"],
+      enum: ["respect","companionship","commitment", "empathy"],
     },
       skincolor: {
         type: true,
@@ -41,7 +41,7 @@ exports.validate_interest = (interest) => {
         .valid("football", "pingpong", "volleyball", "basketball")
         .required(),
       values: Joi.string()
-        .valid("confidence", "active", "creativity", "empathy")
+        .valid("respect","companionship","commitment", "empathy")
         .required(),
       skincolor: Joi.string().valid("black", "brown").required(),
       height: Joi.string().valid("tall", "medium").required(),

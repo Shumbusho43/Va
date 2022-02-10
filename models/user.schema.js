@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
     values: {
       type: String,
       required: ["Value is required", true],
-      enum: ["confidence", "active", "creativity", "empathy"],
+      enum: ["respect","companionship","commitment", "empathy"],
     },
     searching: {
       type: String,
@@ -81,7 +81,7 @@ const userSchema = new mongoose.Schema({
     social: {
       type: String,
       require: true,
-      enum: ["ig", "tsapp", "twitter", "..."],
+      enum: ["ig", "tsapp", "twitter"],
     },
     news: {
       type: String,
@@ -109,7 +109,7 @@ exports.validate_user = (user) => {
         .valid("football", "pingpong", "volleyball", "basketball")
         .required(),
       values: Joi.string()
-        .valid("confidence", "active", "creativity", "empathy")
+        .valid("respect","companionship","commitment", "empathy")
         .required(),
       searching: Joi.string()
         .valid("relationship", "valantine", "casual", "situationship")

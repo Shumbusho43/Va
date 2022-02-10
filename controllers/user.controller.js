@@ -169,6 +169,7 @@ exports.assignMatch = async (req, res) => {
     }
     for (i = 0; i < allgirls.length; i++) {
       for (j = 0; j < allboys.length; j++) {
+        console.log(allboys);
         //if taken
         if (allboys[i].isTaken == true) {
           continue;
@@ -276,6 +277,7 @@ exports.assignMatch = async (req, res) => {
       message: "Finished assigning matching.",
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",

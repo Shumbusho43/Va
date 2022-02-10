@@ -66,7 +66,7 @@
                 },
                 "values": {
                   "type": "string",
-                  "example": "confidence"
+                  "example": "respect"
                 },
                 "skincolor": {
                   "type": "string",
@@ -167,7 +167,7 @@
                   },
                   "values": {
                     "type": "string",
-                    "example": "confidence"
+                    "example": "respect"
                   },
                   "creativity": {
                     "type": "string",
