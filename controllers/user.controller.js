@@ -153,8 +153,8 @@ exports.assignMatch = async (req, res) => {
     //all
     let count = 0;
     let count2 = 0;
-    const allgirls = await USER.find({ gender: "F" });
-    const allboys = await USER.find({ gender: "M" });
+    const allgirls = await USER.find({ gender: "F",isTaken:false});
+    const allboys = await USER.find({ gender: "M",isTaken:false});
     if (allgirls.length == 0) {
       return res.status(400).json({
         success: false,
