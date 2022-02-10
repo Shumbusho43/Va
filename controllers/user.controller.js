@@ -153,7 +153,7 @@ exports.assignMatch = async (req, res) => {
     let count = 0;
     let count2 = 0;
     const allgirls = await USER.find({ gender: "F" });
-    const allboys = await USER.find({ gender: "M"});
+    const allboys = await USER.find({ gender: "M" });
     if (allgirls.length == 0) {
       return res.status(400).json({
         success: false,
@@ -168,10 +168,10 @@ exports.assignMatch = async (req, res) => {
     }
     for (i = 0; i < allgirls.length; i++) {
       for (j = 0; j < allboys.length; j++) {
-      //if taken
-          if (allboys[i].isTaken==true) {
-            continue
-          }
+        //if taken
+        if (allboys[i].isTaken == true) {
+          continue;
+        }
         if (allgirls[i].interest.music == allboys[j].interest.music) {
           count++;
         }
@@ -217,52 +217,111 @@ exports.assignMatch = async (req, res) => {
           //selecting their interests
           let boysInt = await INTEREST.find({ searchingId: allboys[j]._id });
           let girlInt = await INTEREST.find({ searchingId: allgirls[i]._id });
-          if(boysInt.length==0) return res.status(400).json({
-            success:false,
-            message:"Sorry! this boy didn't register his interests"
-          })
-          if(girlInt.length==0) return res.status(400).json({
-            success:false,
-            message:"Sorry! this girl didn't register his interests"
-          })
-          else{
-          if (girlInt.height == boysInt.height) {
-            count2++;
-          }
-          if (girlInt.sports == boysInt.sports) {
-            count2++;
-          }
-          if (girlInt.values == boysInt.values) {
-            count2++;
-          }
-          if (girlInt.skincolor== boysInt.skincolor) {
-            count2++;
-          }
-        //your match
-          if(count2>=3){
-            //updating db
-          let upGirlInt=await INTEREST.findOneAndUpdate({searchingId:girlInt[0].searchingId},{matchingId:boysInt[0].searchingId});
-          let upBoyInt=await INTEREST.findOneAndUpdate({searchingId:boysInt[0].searchingId},{matchingId:girlInt[0].searchingId});
-          await upGirlInt.save();
-          await upBoyInt.save();
+          if (boysInt.length == 0)
+            return res.status(400).json({
+              success: false,
+              message: "Sorry! this boy didn't register his interests",
+            });
+          if (girlInt.length == 0)
+            return res.status(400).json({
+              success: false,
+              message: "Sorry! this girl didn't register his interests",
+            });
+          else {
+            if (girlInt.height == boysInt.height) {
+              count2++;
+            }
+            if (girlInt.sports == boysInt.sports) {
+              count2++;
+            }
+            if (girlInt.values == boysInt.values) {
+              count2++;
+            }
+            if (girlInt.skincolor == boysInt.skincolor) {
+              count2++;
+            }
+            //your match
+            if (count2 >= 3) {
+              //updating db
+              let upGirlInt = await INTEREST.findOneAndUpdate(
+                { searchingId: girlInt[0].searchingId },
+                { matchingId: boysInt[0].searchingId }
+              );
+              let upBoyInt = await INTEREST.findOneAndUpdate(
+                { searchingId: boysInt[0].searchingId },
+                { matchingId: girlInt[0].searchingId }
+              );
+              await upGirlInt.save();
+              await upBoyInt.save();
 
-          let boy=await USER.findByIdAndUpdate(allboys[j]._id,{isTaken:true})
-          let girl=await USER.findByIdAndUpdate(allgirls[i]._id,{isTaken:true})
-          await boy.save();
-          await girl.save();
-          //removing from array
+              let boy = await USER.findByIdAndUpdate(allboys[j]._id, {
+                isTaken: true,
+              });
+              let girl = await USER.findByIdAndUpdate(allgirls[i]._id, {
+                isTaken: true,
+              });
+              await boy.save();
+              await girl.save();
+              //removing from array
+            }
           }
-        }
         }
       }
-    j = 0;
+      j = 0;
     }
     //after assigning matching
     return res.status(200).json({
-      success:true,
-      message:"Finished assigning matching."
-    })
+      success: true,
+      message: "Finished assigning matching.",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+//getting result
+exports.gettingResult = async (req, res) => {
+  try {
+    //selecting from interest
+    let user = await INTEREST.findOne({ searchingId: req.user.id });
+    if (!user)
+      return res.status(400).json({
+        success: false,
+        message: "Sorry! you didn't register your interests.",
+      });
+      console.log(user);
+    if (user.matchingId == "2041601ec527771c3d32848") {
+      return res.status(400).json({
+        success: false,
+        message: "You have no match.",
+      });
+    }
+    //getting girl
+    let girl = await USER.findById(user.searchingId);
+    if (!girl)
+      return res.status(400).json({
+        success: false,
+        message: "User not found.",
+      });
+    let pattern = await USER.findById(user.matchingId);
+    if (!pattern)
+      return res.status(400).json({
+        success: false,
+        message: "Sorry! We failed to get your match.",
+      });
+    return res.status(200).json({
+      success: true,
+      message: "Result...........",
+      girl,
+      pattern,
+    });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
 };

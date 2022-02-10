@@ -26,11 +26,23 @@
     "/api/users/assignMatch": {
       "put": {
         "tags": ["MATCH"],
-        "summary": "Your match",
+        "summary": "Assigniment",
         "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Done............."
+          }
+        }
+      }
+      }, 
+       "/api/users/getMatch": {
+      "get": {
+        "tags": ["MATCH"],
+        "summary": "get your result",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Here it is."
           }
         }
       }
