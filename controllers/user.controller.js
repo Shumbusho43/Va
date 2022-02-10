@@ -1,3 +1,4 @@
+const res = require("express/lib/response");
 const jwt = require("jsonwebtoken");
 const { INTEREST, validate_interest } = require("../models/interest.schema");
 const { USER, validate_user } = require("../models/user.schema");
@@ -291,7 +292,7 @@ exports.gettingResult = async (req, res) => {
         success: false,
         message: "Sorry! you didn't register your interests.",
       });
-      console.log(user);
+    console.log(user);
     if (user.matchingId == "2041601ec527771c3d32848") {
       return res.status(400).json({
         success: false,
@@ -314,7 +315,7 @@ exports.gettingResult = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Result...........",
-      girl,
+      yourData:girl,
       pattern,
     });
   } catch (error) {
@@ -323,5 +324,31 @@ exports.gettingResult = async (req, res) => {
       success: false,
       message: "Internal server error",
     });
+  }
+};
+
+//adding token
+exports.addToken = async (req,res) => {
+  try {
+    const { registeredName } = req.body;
+    let user = await USER.findOne({ fullName: registeredName });
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "No user found",
+      });
+    }
+    let token = jwt.sign(
+      {
+        id: user._id,
+      },
+      process.env.JWT_SECRET
+    );
+    return res.cookie("token", `${token}`).json({
+      success: true,
+      message: "Token added, return to the API."
+    });
+  } catch (error) {
+    console.log(error);
   }
 };

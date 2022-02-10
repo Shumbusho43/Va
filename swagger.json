@@ -20,7 +20,8 @@
       "description": "All users"
     },
     { "name": "INTERESTS", "description": "All interests" },
-    { "name": "MATCH", "description": "Matching" }
+    { "name": "MATCH", "description": "Matching" },
+    {"name":"ADDING_TOKEN","description":"Adding token"}
   ],
   "paths": {
     "/api/users/assignMatch": {
@@ -81,6 +82,32 @@
         "responses": {
           "201": {
             "description": "Recorded."
+          }
+        }
+      }
+    },
+     "/api/users/addToken": {
+      "post": {
+        "tags": ["ADDING_TOKEN"],
+        "summary": "If api requires token use this",
+        "description": "If api requires token use this",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "properties": {
+                "registeredName": {
+                  "type": "string",
+                  "example": "DAVID"
+                }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Token added you can continue."
           }
         }
       }
