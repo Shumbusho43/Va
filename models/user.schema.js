@@ -1,11 +1,10 @@
-const { type } = require("express/lib/response");
 const Joi = require("joi");
 const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   fullName: {
     type: String,
     required: ["Your names are required.", true],
-    min: ["Name is too short.", 5],
+    min: ["Name is too short.", 2],
     max: ["Name is too long.", 40],
   },
   darassa: {
@@ -97,7 +96,7 @@ const userSchema = new mongoose.Schema({
 
 exports.validate_user = (user) => {
   const validation_schema = Joi.object({
-    fullName: Joi.string().min(5).max(40).required(),
+    fullName: Joi.string().min(2).max(40).required(),
     darassa: Joi.string().min(3).max(3).required(),
     social: Joi.string().min(2).max(35).required(),
     gender: Joi.string().valid("M", "F").required(),
