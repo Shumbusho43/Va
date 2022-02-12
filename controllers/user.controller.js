@@ -182,7 +182,6 @@ exports.assignMatch = async (req, res) => {
         let thisBoy=await USER.find({gender:"M"});
         // console.log(thisBoy);
         if(thisBoy[j].isTaken==true){
-          console.log(j+ "condition working");
           continue;
         }
         if (allgirls[i].interest.music == allboys[j].interest.music) {
