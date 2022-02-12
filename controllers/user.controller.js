@@ -172,9 +172,9 @@ exports.assignMatch = async (req, res) => {
       if(allgirls[i].isTaken==true){
         continue;
       }
-      //testing
-      let isTaken=false;
       for (j = 0; j < allboys.length; j++) {
+        //testing
+        let isTaken=false;
         //if taken
         //testing
         console.log(isTaken);
