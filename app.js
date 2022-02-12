@@ -15,14 +15,14 @@ app.use(bodyParser.json())
 app.use(cors());
 app.use(morgan('dev'))
 // documentation
-const swaggerDocs = require("./swagger.json");
-app.use(
-  "/documentation",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocs, false, {
-    docExpansion: "none",
-  })
-  );
+// const swaggerDocs = require("./swagger.json");
+// app.use(
+//   "/documentation",
+//   swaggerUi.serve,
+//   swaggerUi.setup(swaggerDocs, false, {
+//     docExpansion: "none",
+//   })
+//   );
   app.get("/",(req,res)=>{
     return res.status(200).send("WELCOME TO VA.")
   })
