@@ -296,7 +296,6 @@ exports.gettingResult = async (req, res) => {
         success: false,
         message: "Sorry! you didn't register your interests.",
       });
-    console.log(user);
     if (user.matchingId == "2041601ec527771c3d32848") {
       return res.status(400).json({
         success: false,
