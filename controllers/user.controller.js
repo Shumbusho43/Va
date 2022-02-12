@@ -153,8 +153,8 @@ exports.assignMatch = async (req, res) => {
     //all
     let count = 0;
     let count2 = 0;
-    const allgirls = await USER.find({ gender: "F", isTaken: false });
-    const allboys = await USER.find({ gender: "M" });
+    const allgirls = await USER.find({ gender: "F",isTaken:false});
+    const allboys = await USER.find({ gender: "M"});
     // console.log(allboys);
     if (allgirls.length == 0) {
       return res.status(400).json({
@@ -171,20 +171,20 @@ exports.assignMatch = async (req, res) => {
     }
     for (i = 0; i < allgirls.length; i++) {
       //testing
-      if (allgirls[i].isTaken == true) {
+      if(allgirls[i].isTaken==true){
         continue;
       }
-      let isTaken = false;
+      let isTaken=false;
       for (j = 0; j < allboys.length; j++) {
         //testing
-        if (isTaken == true) {
+        if(isTaken==true){
           continue;
         }
         //QUERRYING
-        let thisBoy = await USER.find({ gender: "M" });
+        let thisBoy=await USER.find({gender:"M"});
         // console.log(allgirls[i]);
         // console.log(thisBoy[j]+" "+j);
-        if (thisBoy[j].isTaken == true) {
+        if(thisBoy[j].isTaken==true){
           continue;
         }
         if (allgirls[i].interest.music == allboys[j].interest.music) {
@@ -226,10 +226,11 @@ exports.assignMatch = async (req, res) => {
           //selecting their interests
           let boysInt = await INTEREST.find({ searchingId: allboys[j]._id });
           let girlInt = await INTEREST.find({ searchingId: allgirls[i]._id });
-          if (boysInt.length == 0) {
+          if (boysInt.length == 0)
+          {
             continue;
           }
-          if (girlInt.length == 0) {
+          if (girlInt.length == 0){
             continue;
           }
           else {
@@ -267,13 +268,13 @@ exports.assignMatch = async (req, res) => {
               });
               await boy.save();
               await girl.save();
-              isTaken = true;
+              isTaken=true;
             }
             //testing 
           }
         }
       }
-      isTaken = false;
+      isTaken=false;
       j = 0;
     }
     //after assigning matching
@@ -321,7 +322,7 @@ exports.gettingResult = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Result...........",
-      yourData: girl,
+      yourData:girl,
       pattern,
     });
   } catch (error) {
@@ -334,7 +335,7 @@ exports.gettingResult = async (req, res) => {
 };
 
 //adding token
-exports.addToken = async (req, res) => {
+exports.addToken = async (req,res) => {
   try {
     const { registeredName } = req.body;
     let user = await USER.findOne({ fullName: registeredName });
@@ -359,16 +360,3 @@ exports.addToken = async (req, res) => {
   }
 };
 
-
-exports.deleteUser = async (req, res) => {
-  try {
-
-    const user = await USER.findByIdAndDelete(req.params.id);
-    const interest = await INTEREST.findOneAndDelete({ searchingId: req.params.id });
-    if (!user) return res.status(400).send("undable to delete user")
-    if ( !interest) return res.status(400).send("unable to delete interest")
-    return res.status(200).json({ message: "deleted" })
-  } catch (error) {
-    console.log(error)
-  }
-}
