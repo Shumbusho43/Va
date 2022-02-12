@@ -206,12 +206,6 @@ exports.assignMatch = async (req, res) => {
           count++;
         }
         if (
-          allgirls[i].interest.char.skincolor ==
-          allboys[j].interest.char.skincolor
-        ) {
-          count++;
-        }
-        if (
           allgirls[i].interest.char.height == allboys[j].interest.char.height
         ) {
           count++;
@@ -282,6 +276,7 @@ exports.assignMatch = async (req, res) => {
           }
         }
       }
+      isTaken=false;
       j = 0;
     }
     //after assigning matching
