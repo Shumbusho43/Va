@@ -168,9 +168,19 @@ exports.assignMatch = async (req, res) => {
       });
     }
     for (i = 0; i < allgirls.length; i++) {
+      //testing
+      if(allgirls[i].isTaken==true){
+        continue;
+      }
+      //testing
+      let isTaken=false;
       for (j = 0; j < allboys.length; j++) {
-        console.log(allboys);
         //if taken
+        //testing
+        console.log(isTaken);
+        if(isTaken==true){
+          continue;
+        }
         if (allboys[i].isTaken == true) {
           continue;
         }
@@ -266,8 +276,9 @@ exports.assignMatch = async (req, res) => {
               });
               await boy.save();
               await girl.save();
-              //removing from array
+              isTaken=true;
             }
+            //testing 
           }
         }
       }
