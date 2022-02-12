@@ -175,14 +175,14 @@ exports.assignMatch = async (req, res) => {
       let isTaken=false;
       for (j = 0; j < allboys.length; j++) {
         //testing
-        //if taken
-        //testing
-         console.log(isTaken);
-         console.log(j);
         if(isTaken==true){
           continue;
         }
-        if (allboys[i].isTaken == true) {
+        //QUERRYING
+        let thisBoy=await USER.find({gender:"M"});
+        console.log(thisBoy);
+        if(thisBoy[j].isTaken==true){
+          console.log(j+ "condition working");
           continue;
         }
         if (allgirls[i].interest.music == allboys[j].interest.music) {
@@ -272,7 +272,7 @@ exports.assignMatch = async (req, res) => {
           }
         }
       }
-      // isTaken=false;
+      isTaken=false;
       j = 0;
     }
     //after assigning matching
