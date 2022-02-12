@@ -178,6 +178,7 @@ exports.assignMatch = async (req, res) => {
         //if taken
         //testing
          console.log(isTaken);
+         console.log(j);
         if(isTaken==true){
           continue;
         }
@@ -224,17 +225,12 @@ exports.assignMatch = async (req, res) => {
           let boysInt = await INTEREST.find({ searchingId: allboys[j]._id });
           let girlInt = await INTEREST.find({ searchingId: allgirls[i]._id });
           if (boysInt.length == 0)
-//             return res.status(400).json({
-//               success: false,
-//               message: "Sorry! this boy didn't register his interests",
-//             });
+          {
             continue;
-          if (girlInt.length == 0)
-//             return res.status(400).json({
-//               success: false,
-//               message: "Sorry! this girl didn't register his interests",
-//             });
+          }
+          if (girlInt.length == 0){
             continue;
+          }
           else {
             if (girlInt.height == boysInt.height) {
               count2++;
