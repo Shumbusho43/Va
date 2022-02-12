@@ -172,12 +172,12 @@ exports.assignMatch = async (req, res) => {
       if(allgirls[i].isTaken==true){
         continue;
       }
+      let isTaken=false;
       for (j = 0; j < allboys.length; j++) {
         //testing
-        let isTaken=false;
         //if taken
         //testing
-        console.log(isTaken);
+         console.log(isTaken);
         if(isTaken==true){
           continue;
         }
@@ -276,7 +276,7 @@ exports.assignMatch = async (req, res) => {
           }
         }
       }
-      isTaken=false;
+      // isTaken=false;
       j = 0;
     }
     //after assigning matching
