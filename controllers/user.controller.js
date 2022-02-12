@@ -180,7 +180,7 @@ exports.assignMatch = async (req, res) => {
         }
         //QUERRYING
         let thisBoy=await USER.find({gender:"M"});
-        console.log(thisBoy);
+        // console.log(thisBoy);
         if(thisBoy[j].isTaken==true){
           console.log(j+ "condition working");
           continue;
