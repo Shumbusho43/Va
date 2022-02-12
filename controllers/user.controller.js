@@ -154,13 +154,15 @@ exports.assignMatch = async (req, res) => {
     let count = 0;
     let count2 = 0;
     const allgirls = await USER.find({ gender: "F",isTaken:false});
-    const allboys = await USER.find({ gender: "M",isTaken:false});
+    const allboys = await USER.find({ gender: "M"});
+    // console.log(allboys);
     if (allgirls.length == 0) {
       return res.status(400).json({
         success: false,
         message: "No girls found.",
       });
     }
+    // console.log(allboys);
     if (allboys.length == 0) {
       return res.status(400).json({
         success: false,
@@ -180,7 +182,8 @@ exports.assignMatch = async (req, res) => {
         }
         //QUERRYING
         let thisBoy=await USER.find({gender:"M"});
-        // console.log(thisBoy);
+        // console.log(allgirls[i]);
+        // console.log(thisBoy[j]+" "+j);
         if(thisBoy[j].isTaken==true){
           continue;
         }
