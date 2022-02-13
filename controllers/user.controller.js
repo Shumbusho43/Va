@@ -95,7 +95,7 @@ exports.register = async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1d",
+        expiresIn: "6d",
       }
     );
     return res.cookie("token", `${token}`).json({
