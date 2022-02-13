@@ -8,7 +8,7 @@ const { allNames } = require("../models/userModel");
 exports.getAllUsers = async (req, res) => {
   // return res.send("table not initializedd");
   try {
-    const user = await USER.find({gender:"F"}); //GIRLS 32[5] [10] BOYS 41
+    const user = await USER.find(); //GIRLS 32[5] [10] BOYS 41
     if (user.length == 0) {
       return res.status(400).json({
         success: false,
@@ -354,6 +354,7 @@ exports.addToken = async (req,res) => {
     );
     return res.cookie("token", `${token}`).json({
       success: true,
+      token,
       message: "Token added, return to the API."
     });
   } catch (error) {

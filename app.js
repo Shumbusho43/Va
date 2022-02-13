@@ -2,7 +2,6 @@ const express = require("express");
 const dotenv = require("dotenv");
 const swaggerUi = require("swagger-ui-express");
 const cors = require("cors");
-const morgan = require('morgan')
 const bodyParser = require("body-parser");
 const cookieParser=require("cookie-parser");
 const { dbConnection } = require("./models/dbConn");
@@ -13,7 +12,6 @@ const app = express();
 app.use(cookieParser());
 app.use(bodyParser.json())
 app.use(cors());
-app.use(morgan('dev'))
 // documentation
 const swaggerDocs = require("./swagger.json");
 app.use(
@@ -23,6 +21,15 @@ app.use(
     docExpansion: "none",
   })
   );
+//Add headers
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  next();
+});
   app.get("/",(req,res)=>{
     return res.status(200).send("WELCOME TO VA.")
   })
