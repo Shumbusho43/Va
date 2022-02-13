@@ -338,8 +338,8 @@ exports.gettingResult = async (req, res) => {
 //adding token
 exports.addToken = async (req,res) => {
   try {
-    const { registeredName } = req.body;
-    let user = await USER.findOne({ fullName: registeredName });
+    const { id } = req.body;
+    let user = await USER.findById(id);
     if (!user) {
       return res.status(400).json({
         success: false,

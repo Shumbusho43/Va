@@ -98,9 +98,9 @@
             "in": "body",
             "name": "body",
             "properties": {
-                "registeredName": {
+                "id": {
                   "type": "string",
-                  "example": "DAVID"
+                  "example": "12345"
                 }
             }
           }
